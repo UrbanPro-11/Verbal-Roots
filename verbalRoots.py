@@ -37,7 +37,7 @@ definitions = [
     ["power"], ["first"], ["straight", "right"], ["follow"], ["alone", "sun"], ["hold"], ["empty"]
 ]
 
-
+# Setting up some stuff
 practice = 'yes'
 
 wordsToPractice = []
