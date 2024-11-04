@@ -23,19 +23,20 @@ roots = [
 
 # List of definitions
 definitions = [
-    "water", "hear", "good", "life", "time", "body", "believe", "say", "earth", "write",
-    "join", "word, study", "light", "hand", "mother", "death", "many", "all", 
-    "father", "carry", "break", "write", "cut", "see, look", "build", "earth", 
-    "heat", "come", "see", "life", "call", "good", "bad", "love", "fear", "sound", 
-    "light", "city", "mind", "see", "far", "animal", "before", "against", "self", 
-    "good", "around", "against", "down, away", "apart, away", "equal", "out of, from", 
-    "over", "under", "between", "within", "large", "small", "one", "many", "many", 
-    "after", "before", "forward", "backward", "under", "above", "across", "one", 
-    "both", "chief, ruler", "go, yield", "trust, faith", "end", "flow", "shape", 
-    "birth, race", "step", "law", "law", "free", "light", "middle", "move", "send", 
-    "move", "name", "foot", "drive, push", "hang", "love", "please", "place, put", 
-    "power", "first", "straight", "follow", "alone", "hold", "empty"
+    ["water"], ["hear"], ["good"], ["life"], ["time"], ["body"], ["believe"], ["say"], ["earth"], ["write"],
+    ["join"], ["word", "study"], ["light"], ["hand"], ["mother"], ["death"], ["many"], ["all"], 
+    ["father"], ["carry"], ["break"], ["write"], ["cut"], ["see", "look"], ["build"], ["earth"], 
+    ["heat"], ["come"], ["see"], ["life"], ["call"], ["good"], ["bad"], ["love"], ["fear"], ["sound"], 
+    ["light"], ["city"], ["mind"], ["see"], ["far"], ["animal"], ["before"], ["against"], ["self"], 
+    ["good"], ["around"], ["against"], ["down", "away"], ["apart", "away"], ["equal"], ["out", "out of", "from"], 
+    ["over"], ["under"], ["between"], ["within"], ["large"], ["small"], ["one"], ["many"], ["many"], 
+    ["after"], ["before"], ["forward"], ["backward"], ["under"], ["above"], ["across"], ["one"], 
+    ["both"], ["chief", "ruler"], ["go", "yield"], ["trust", "faith"], ["end"], ["flow"], ["shape"], 
+    ["birth", "race"], ["step"], ["law"], ["law"], ["free"], ["light"], ["middle"], ["move"], ["send"], 
+    ["move"], ["name"], ["foot"], ["drive", "push"], ["hang"], ["love"], ["please"], ["place", "put"], 
+    ["power"], ["first"], ["straight", "right"], ["follow"], ["alone", "sun"], ["hold"], ["empty"]
 ]
+
 
 practice = 'yes'
 
@@ -45,9 +46,10 @@ definitionsToRemember = []
 correct = 0
 incorrect = 0
 
+# Function for working out the guess
 def attempt(trys, rootWord, definitionWord, mode):
     global wordsToPractice, definitionsToRemember, correct, incorrect
-    if trys.lower() == definitionWord:
+    if trys.lower() in definitionWord:
         print('Correct!')
         correct += 1
         if mode == False:
@@ -63,12 +65,13 @@ def attempt(trys, rootWord, definitionWord, mode):
             wordsToPractice.append(rootWord)
             definitionsToRemember.append(definitionWord)
 
+# Main while loop
 while practice.lower() in ['yes', 'y']:
 
     try: total = int(input('Enter how many roots you would like to practice: '))
     except ValueError:
-        print('Please enter an integer.')
-        total = int(input('Enter how many roots you would like to practice: '))
+        print('It will default to 10.')
+        total = 10
     
     for _ in range(total):
         x = random.randint(0, 99)
@@ -79,24 +82,20 @@ while practice.lower() in ['yes', 'y']:
         attempt(guess, root, definition, mode=True)
     
     practice = input('Would you like to continue practicing? ')
-    if practice.lower() in ['yes', 'y']:
-     #   
+    if practice.lower() in ['yes', 'y']:  
         review = input('Would you like to practice your incorrect words? ')
 
         if review.lower() in ['yes', 'y']:
+            z = len(wordsToPractice)
 
-            y = len(wordsToPractice)
-    
-            # Iterate backwards to avoid index errors when removing items
-            for word in range(y - 1, -1, -1):
+            for word in range(z - 1, -1, -1):
                 guess = input(f'Enter the definition for {wordsToPractice[word]}: ')
                 attempt(guess, wordsToPractice[word], definitionsToRemember[word], mode=False)
 
-        else:
-            continue
+        else: continue
 
     else:
         print(f'You got {correct} out of {correct + incorrect}.')
-        print(f'You need to practice the roots {wordsToPractice}.')
+        if len(wordsToPractice) > 1: print(f'You need to practice the roots {wordsToPractice}.')
         print('Bye!')
         break
