@@ -1,48 +1,59 @@
 import random
+import json
 
 print("""Hello!
 Use this to work on SSAT synonyms and the verbal section.
 You should memorize these roots as they will most likely
-appear on the SSAT.""")
+appear on the SSAT.
+Good luck!
+Credits to UrbanPro11 for creating this :)
+""")
 
-# List of roots
-roots = [
-    "aqua", "aud", "bene", "bio", "chrono", "corp", "cred", "dict", "geo", "graph",
-    "junct", "log/logy", "lumin", "man/manu", "mater/matr", "mort", "multi", "omni", 
-    "pater/patr", "port", "rupt", "scrib/script", "sect", "spec", "struct", "terra", 
-    "therm", "ven/vent", "vid/vis", "viv/vit", "voc/voke", "bene", "mal", "philo", 
-    "phobia", "phon", "photo", "polis/polit", "psych", "scope", "tele", "zo", "ante", 
-    "anti", "auto", "bene", "circum", "contra", "de", "dis", "equi", "ex", "hyper", 
-    "hypo", "inter", "intra", "macro", "micro", "mono", "multi", "poly", "post", 
-    "pre", "pro", "retro", "sub", "super", "trans", "uni", "ambi/amphi", "arch", 
-    "cede/ceed/cess", "fid", "fin", "flu", "form", "gen", "grad/gress", "jur/jus", 
-    "leg", "liber", "luc", "medi", "migr", "miss/mit", "mov/mot/mobil", "onym", "ped", 
-    "pel/puls", "pend", "phil", "plac", "pon/pos", "poten", "prim", "rect", "sequ", 
-    "sol", "ten/tain/tin", "vac"
-]
+# Load data, or get default of nothing
+try:
+    with open('ssatVerbal.json', 'r') as file:
+        loaded = json.load(file)
+except FileNotFoundError:
+    print("File not found. Initializing default data.")
+    loaded = {}
 
-# List of definitions
-definitions = [
-    ["water"], ["hear"], ["good"], ["life"], ["time"], ["body"], ["believe"], ["say"], ["earth"], ["write"],
-    ["join"], ["word", "study"], ["light"], ["hand"], ["mother"], ["death"], ["many"], ["all"], 
-    ["father"], ["carry"], ["break"], ["write"], ["cut"], ["see", "look"], ["build"], ["earth"], 
-    ["heat"], ["come"], ["see"], ["life"], ["call"], ["good"], ["bad"], ["love"], ["fear"], ["sound"], 
-    ["light"], ["city"], ["mind"], ["see"], ["far"], ["animal"], ["before"], ["against"], ["self"], 
-    ["good"], ["around"], ["against"], ["down", "away"], ["apart", "away"], ["equal"], ["out", "out of", "from"], 
-    ["over"], ["under"], ["between"], ["within"], ["large"], ["small"], ["one"], ["many"], ["many"], 
-    ["after"], ["before"], ["forward"], ["backward"], ["under"], ["above"], ["across"], ["one"], 
-    ["both"], ["chief", "ruler"], ["go", "yield"], ["trust", "faith"], ["end"], ["flow"], ["shape"], 
-    ["birth", "race"], ["step"], ["law"], ["law"], ["free"], ["light"], ["middle"], ["move"], ["send"], 
-    ["move"], ["name"], ["foot"], ["drive", "push"], ["hang"], ["love"], ["please"], ["place", "put"], 
-    ["power"], ["first"], ["straight", "right"], ["follow"], ["alone", "sun"], ["hold"], ["empty"]
-]
+# Retrieving data
+wordsToPractice = loaded.get("words", [])
+definitionsToRemember = loaded.get("definitions", [])
 
-# Setting up some stuff
+# Roots and definitions setup
+rootsAndDefinitions = {
+    'aqua': ['water'], 'aud': ['hear'], 'bene': ['good'], 'bio': ['life'], 'chrono': ['time'],
+    'corp': ['body'], 'cred': ['believe'], 'dict': ['say'], 'geo': ['earth'], 'graph': ['write'],
+    'junct': ['join'], 'log/logy': ['word', 'study'], 'lumin': ['light'], 'man/manu': ['hand'],
+    'mater/matr': ['mother'], 'mort': ['death'], 'multi': ['many'], 'omni': ['all'],
+    'pater/patr': ['father'], 'port': ['carry'], 'rupt': ['break'], 'scrib/script': ['write'],
+    'sect': ['cut'], 'spec': ['see', 'look'], 'struct': ['build'], 'terra': ['earth'],
+    'therm': ['heat'], 'ven/vent': ['come'], 'vid/vis': ['see'], 'viv/vit': ['life'],
+    'voc/voke': ['call'], 'mal': ['bad'], 'philo': ['love'], 'phobia': ['fear'],
+    'phon': ['sound'], 'photo': ['light'], 'polis/polit': ['city'], 'psych': ['mind'],
+    'scope': ['see'], 'tele': ['far'], 'zo': ['animal'], 'ante': ['before'], 'anti': ['against'],
+    'auto': ['self'], 'circum': ['around'], 'contra': ['against'], 'de': ['down', 'away'],
+    'dis': ['apart', 'away'], 'equi': ['equal'], 'ex': ['out of', 'from'], 'hyper': ['over'],
+    'hypo': ['under'], 'inter': ['between'], 'intra': ['within'], 'macro': ['large'],
+    'micro': ['small'], 'mono': ['one'], 'poly': ['many'], 'post': ['after'], 'pre': ['before'],
+    'pro': ['forward'], 'retro': ['backward'], 'sub': ['under'], 'super': ['above'],
+    'trans': ['across'], 'uni': ['one'], 'ambi/amphi': ['both'], 'arch': ['chief', 'ruler'],
+    'cede/ceed/cess': ['go', 'yield'], 'fid': ['trust', 'faith'], 'fin': ['end'], 'flu': ['flow'],
+    'form': ['shape'], 'gen': ['birth', 'race'], 'grad/gress': ['step'], 'jur/jus': ['law'],
+    'leg': ['law'], 'liber': ['free'], 'luc': ['light'], 'medi': ['middle'], 'migr': ['move'],
+    'miss/mit': ['send'], 'mov/mot/mobil': ['move'], 'onym': ['name'], 'ped': ['foot'],
+    'pel/puls': ['drive', 'push'], 'pend': ['hang'], 'phil': ['love'], 'plac': ['please'],
+    'pon/pos': ['place', 'put'], 'poten': ['power'], 'prim': ['first'], 'rect': ['straight'],
+    'sequ': ['follow'], 'sol': ['alone'], 'ten/tain/tin': ['hold'], 'vac': ['empty']
+}
+
+# Prepare root and definition lists
+roots = [root for root in rootsAndDefinitions]
+definitions = [definition for definition in rootsAndDefinitions.values()]
+
+# Practice setup
 practice = 'yes'
-
-wordsToPractice = []
-definitionsToRemember = []
-
 correct = 0
 incorrect = 0
 
@@ -54,10 +65,9 @@ def attempt(trys, rootWord, definitionWord, mode):
         correct += 1
         if mode == False:
             incorrect -= 1
-            index = wordsToPractice.index(rootWord)  # Get the index of rootWord
+            index = wordsToPractice.index(rootWord)
             wordsToPractice.pop(index)
             definitionsToRemember.pop(index)
-
     else:
         print(f'Incorrect. The answer was {definitionWord}')
         if mode == True:
@@ -65,30 +75,27 @@ def attempt(trys, rootWord, definitionWord, mode):
             wordsToPractice.append(rootWord)
             definitionsToRemember.append(definitionWord)
 
-# Main while loop
+# Main loop
 while practice.lower() in ['yes', 'y']:
-
-    try: total = int(input('Enter how many roots you would like to practice: '))
+    try: 
+        total = int(input('Enter how many roots you would like to practice: '))
     except ValueError:
         print('It will default to 10.')
         total = 10
-    
+
     for _ in range(total):
-        x = random.randint(0, 99)
+        x = random.randint(0, len(rootsAndDefinitions)-1)
         root = roots[x]
         definition = definitions[x]
 
         guess = input(f'Enter the definition for {root}: ')
         attempt(guess, root, definition, mode=True)
-    
+
     practice = input('Would you like to continue practicing? ')
-    if practice.lower() in ['yes', 'y']:  
+    if practice.lower() in ['yes', 'y']:
         review = input('Would you like to practice your incorrect words? ')
-
         if review.lower() in ['yes', 'y']:
-            z = len(wordsToPractice)
-
-            for word in range(z - 1, -1, -1):
+            for word in range(len(wordsToPractice)-1, -1, -1):
                 guess = input(f'Enter the definition for {wordsToPractice[word]}: ')
                 attempt(guess, wordsToPractice[word], definitionsToRemember[word], mode=False)
 
@@ -96,6 +103,12 @@ while practice.lower() in ['yes', 'y']:
 
     else:
         print(f'You got {correct} out of {correct + incorrect}.')
-        if len(wordsToPractice) > 1: print(f'You need to practice the roots {wordsToPractice}.')
+        if len(wordsToPractice) > 1:
+            print(f'You need to practice the roots {wordsToPractice}.')
+        
+        practicePlease = {"words": wordsToPractice, "definitions": definitionsToRemember}
+        
+        with open('ssatVerbal.json', 'w') as file:
+            json.dump(practicePlease, file, indent=4)
         print('Bye!')
         break
